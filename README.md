@@ -1,6 +1,6 @@
 # OpenGlRenderer2D
 
-The project a was making while trying to learn openGl.
+The project I was making while trying to learn openGl.
 
 Currently available features:
   1) Rendering basic primitives like: Rectangles, Circles, Triangles, Lines;
@@ -10,4 +10,4 @@ Currently available features:
 
 Planned features:
   1) Text rendering;
-  2) Batching.
+  2) Batching optimization.
