@@ -10,13 +10,13 @@ namespace OpenGlRenderer.Rendering.Primitives
         private Vector2 _vertex3;
 
         /// <summary>
-        /// Vertices are defined in triangle's local space
+        /// 
         /// </summary>
         /// <param name="position"></param>
         /// <param name="color"></param>
-        /// <param name="vertex1"></param>
-        /// <param name="vertex2"></param>
-        /// <param name="vertex3"></param>
+        /// <param name="vertex1">Defined in the local space of the triangle</param>
+        /// <param name="vertex2">Defined in the local space of the triangle</param>
+        /// <param name="vertex3">Defined in the local space of the triangle</param>
         public Triangle(Vector2 position, Color4 color, Vector2 vertex1, Vector2 vertex2, Vector2 vertex3) : base(position, color)
         {
             _vertex1 = vertex1;

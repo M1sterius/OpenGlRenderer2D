@@ -6,6 +6,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenGlRenderer.GlAbstraction;
 using System.Globalization;
+using System.IO;
 using OpenGlRenderer.Rendering;
 using OpenGlRenderer.Rendering.Primitives;
 using OpenGlRenderer.Rendering.Sprites;
@@ -17,6 +18,8 @@ namespace OpenGlRenderer
     {
         private const bool ShowFpsInTitle = true;
         private static GameWindow _gameWindow;
+
+        private static readonly string DirPath = Directory.GetCurrentDirectory();
 
         private static readonly List<RenderableObject> Objects = new List<RenderableObject>();
 
@@ -32,6 +35,9 @@ namespace OpenGlRenderer
                 WindowBorder = WindowBorder.Fixed
             };
             _gameWindow = new GameWindow(gws, nws);
+
+            _gameWindow.RenderFrequency = 300f;
+            _gameWindow.UpdateFrequency = 300f;
 
             _gameWindow.Load += OnLoad;
             _gameWindow.RenderFrame += OnRenderFrame;
@@ -73,6 +79,8 @@ namespace OpenGlRenderer
             Console.WriteLine($"GPU driver version: {GL.GetString(StringName.Version)}");
             Console.WriteLine();
 
+            Console.WriteLine(DirPath);
+
             _gameWindow.Run();
         }
 
@@ -80,7 +88,7 @@ namespace OpenGlRenderer
         {
             Renderer.SetClearColor(Renderer.DefaultClearColor);
 
-            var tex = new Texture("D:\\Important Coding Projects\\OpenGlRenderer\\OpenGlRenderer\\Assets\\Misterius3Dk.png");
+            var tex = new Texture(Path.Combine(DirPath, "Assets/Misterius3Dk.png"));
             var sprite = new Sprite(new Vector2(-300, 300), tex, new Vector2(100, 100));
             Objects.Add(sprite);
 
@@ -93,8 +101,19 @@ namespace OpenGlRenderer
             var triangle = new Triangle(new Vector2(-300, 0), Color4.Beige, new Vector2(-50, 50), Vector2.Zero, new Vector2(50, 50));
             Objects.Add(triangle);
 
-            var line = new Line(new Vector2(0, 0), new Vector2(50, 0), Color4.DarkViolet, 3);
+            var line = new Line(new Vector2(-50, 0), new Vector2(100, 0), Color4.DarkViolet, 2);
             Objects.Add(line);
+
+            var vertices = new Vector2[]
+            {
+                new Vector2(-10, 20),
+                new Vector2(0, 75),
+                new Vector2(75, 30),
+                new Vector2(50, -50),
+                new Vector2(-50, -50)
+            };
+            var polygon = new Polygon(new Vector2(300, 0), Color4.DarkKhaki, vertices);
+            Objects.Add(polygon);
         }
 
         private static void OnRenderFrame(FrameEventArgs args)
@@ -151,34 +170,5 @@ namespace OpenGlRenderer
             var val = (random.NextDouble() * (max - min) + min);
             return (float)val;
         }
-
-        //private static void GenerateRandomRenderables(int amount, Texture texture)
-        //{   
-        //    var rng = new Random();
-            
-        //    for (int i = 0; i < amount; i++)
-        //    {
-        //        var type = rng.Next(0, 3);
-
-        //        if (type == 0)
-        //        {
-        //            var circle = new Circle(new Vector2(RandomFloat(-800, 800), RandomFloat(-450, 450)), Color4.Gold,
-        //                RandomFloat(5, 50));
-        //            Objects.Add(circle);
-        //        }
-        //        else if (type == 1)
-        //        {
-        //            var rect = new Rectangle(new Vector2(RandomFloat(-800, 800), RandomFloat(-450, 450)), Color4.BlueViolet,
-        //                new Vector2(RandomFloat(5, 100), RandomFloat(5, 100)));
-        //            Objects.Add(rect);
-        //        }
-        //        else if (type == 2)
-        //        {   
-        //            if (texture == null) continue;
-        //            var sprite = new Sprite(new Vector2(RandomFloat(-800, 800), RandomFloat(-450, 450)), texture, 0.05f);
-        //            Objects.Add(sprite);
-        //        }
-        //    }
-        //}
     }
 }
